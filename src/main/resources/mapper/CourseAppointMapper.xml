@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zihe.tams.module.course.dao.CourseAppointMapper">
+
+    <select id="getCurrentAppointSize" resultType="int" parameterType="long">
+        select count(*) from t_course_appoint where schedule_id = #{scheduleId} and state = 1  and is_deleted = 'N'
+    </select>
+
+    <select id="selectByScheduleIdAndCustomerId" parameterType="long"
+            resultType="com.zihe.tams.module.course.model.data.CourseAppointDO">
+        select * from t_course_appoint where schedule_id = #{scheduleId} and customer_id = #{customerId}  and is_deleted = 'N'
+    </select>
+
+    <update id="cancelAppoint" parameterType="long">
+        update t_course_appoint set state = 3, cancel_time = now() where schedule_id = #{scheduleId} and customer_id = #{customerId}
+    </update>
+
+    <update id="signIn" parameterType="long">
+        update t_course_appoint set attendance = 1 where schedule_id = #{scheduleId} and customer_id = #{customerId}
+    </update>
+
+    <update id="upWait">
+        update t_course_appoint set appoint_time = #{appointTime} where schedule_id = #{scheduleId} and customer_id = #{customerId}
+    </update>
+
+    <update id="cancelSignIn" parameterType="long">
+        update t_course_appoint set attendance = 0 where schedule_id = #{scheduleId} and customer_id = #{customerId}
+    </update>
+
+    <select id="selectFirstWait" parameterType="long"
+            resultType="com.zihe.tams.module.course.model.data.CourseAppointDO">
+        select * from t_course_appoint where schedule_id = #{scheduleId} and state = 2   and is_deleted = 'N' order by appoint_time asc limit 0, 1
+    </select>
+
+    <select id="pageCustomerCourse" resultType="com.zihe.tams.module.course.model.dto.CustomerCourseListVO">
+        select  t.`name` teacher_name, c.`name` course_name, ca.state as appoint_state, cs.attend_time, cs.date, cs.finish_time, card_rule.name as card_name, card_rule.type as card_type,
+        ca.attendance
+        from    t_course_appoint ca LEFT JOIN t_course_scheduling cs on ca.schedule_id = cs.id
+        left join t_teacher t on cs.teacher_id = t.id
+		left join t_course c on cs.course_id = c.id
+		left join card on card.id = ca.card_id
+		left join card_rule on card_rule.id = card.card_rule_id
+        where ca.customer_id = #{customerId}  and cs.is_deleted = 'N' order by cs.date desc limit #{page}, #{size}
+    </select>
+
+    <select id="getAppointedInfo" resultType="com.zihe.tams.module.course.model.dto.CustomerCourseListVO">
+        select  t.`name` teacher_name, c.`name` course_name, ca.state as appoint_state, cs.attend_time, cs.date, cs.finish_time, card_rule.name as card_name, card_rule.type as card_type,
+        ca.attendance, card.id card_id, cs.id schedule_id, t.aka_name
+        from    t_course_appoint ca LEFT JOIN t_course_scheduling cs on ca.schedule_id = cs.id
+        left join t_teacher t on cs.teacher_id = t.id
+		left join t_course c on cs.course_id = c.id
+		left join card on card.id = ca.card_id
+		left join card_rule on card_rule.id = card.card_rule_id
+        where ca.customer_id = #{customerId}  and cs.is_deleted = 'N' and ca.state in (1, 2) and ca.attendance = 0 order by cs.date
+    </select>
+
+    <select id="getTotal" resultType="int">
+        select count(*) from t_course_appoint  where  customer_id = #{customerId}  and is_deleted = 'N'
+    </select>
+
+<!--    包括已约和候补-->
+    <select id="getAppointNum" resultType="int">
+        select count(*) from t_course_appoint  where  schedule_id = #{scheduleId} and state in (1, 2)  and is_deleted = 'N'
+    </select>
+
+
+    <select id="attendNum" resultType="int">
+        select count(*) from t_course_appoint  ca
+        left join t_course_scheduling cs on ca.schedule_id = cs.id
+        where cs.teacher_id =#{teacherId} and ca.customer_id = #{customerId} and ca.attendance = 2  and ca.is_deleted = 'N'
+    </select>
+
+    <select id="getAttendanceNum" resultType="int">
+        select count(*) from t_course_appoint  where  schedule_id = #{scheduleId} and attendance = 1  and is_deleted = 'N'
+    </select>
+
+    <select id="getCourseInPeriodCount" resultType="int">
+        select count(*) from t_course_appoint ca left join t_course_scheduling cs on ca.schedule_id = cs.id
+        where  ca.card_id = #{cardId}  and ca.state in (1, 2) and cs.date &gt;= #{begin} and cs.date &lt;= #{end} and ca.is_deleted = 'N'
+    </select>
+
+    <select id="countAppointed" resultType="int">
+        select count(*) from t_course_appoint ca left join t_course_scheduling cs on ca.schedule_id = cs.id
+        where  ca.card_id = #{cardId}  and ca.state in (1, 2) and ca.attendance = 0 and ca.is_deleted = 'N'
+    </select>
+
+    <select id="countAppointedForRecharge" resultType="com.zihe.tams.module.course.model.data.CourseDO">
+        select c.price,c.card_type from t_course_appoint ca
+        left join t_course_scheduling cs on ca.schedule_id = cs.id
+        left join t_course c on c.id = cs.course_id
+        where  ca.card_id = #{cardId}  and ca.state in (1, 2) and ca.attendance = 0 and ca.is_deleted = 'N'
+    </select>
+
+    <select id="getTeacherCourseInPeriodCount" resultType="int">
+        select count(*) from t_course_appoint ca
+        left join t_course_scheduling cs on ca.schedule_id = cs.id
+        where  cs.teacher_id = #{teacherId} and cs.date &gt;= #{begin} and cs.date &lt;= #{end} and ca.is_deleted = 'N' and ca.attendance = 1
+    </select>
+
+    <update id="deleteLogic" parameterType="long">
+        update t_course_appoint set is_deleted = 'Y' where schedule_id = #{scheduleId}
+    </update>
+
+    <select id="queryTeacherCourse" resultType="com.zihe.tams.module.teacher.model.dto.TeacherCourseDTO">
+        select c.name as student_name, cs.date, cs.finish_time, cs.attend_time , t_course.name course_name
+        from t_course_appoint ca
+        left join t_customer c on ca.customer_id = c.id
+        left join t_course_scheduling cs on ca.schedule_id = cs.id
+        left join t_course on t_course.id = cs.course_id
+        where cs.teacher_id = #{teacherId} and ca.is_deleted = 'N' and ca.attendance = 1 and c.is_deleted = 'N'
+        <if test="startDate != null &amp;&amp; endDate != null">
+        and
+        cs.date between #{startDate} and #{endDate}
+        </if>
+        order by cs.date desc limit #{page}, #{size}
+    </select>
+
+    <select id="getCustomerByScheduleId" resultType="com.zihe.tams.module.customer.model.dto.CustomerAppointDTO">
+        select t_customer.*, ca.state, ca.card_id
+        from t_course_scheduling cs left join t_course_appoint ca on  ca.schedule_id = cs.id
+        left join t_customer on t_customer.id = ca.customer_id
+        where cs.id = #{scheduleId} and ca.is_deleted = 'N'
+    </select>
+
+    <update id="addCancelTime" parameterType="long">
+        update card set cancel_times = cancel_times + 1 where id = #{cardId}
+    </update>
+</mapper>

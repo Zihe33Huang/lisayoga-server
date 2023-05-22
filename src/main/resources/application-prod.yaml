@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://lisayoga:3306/lisayoga?characterEncoding=utf-8&ti&useSSL=false&&serverTimezone=Asia/Shanghai
+      username: root
+      password: lisayoga
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 30000
+
+logging:
+  level:
+    com.zihe.tams: info

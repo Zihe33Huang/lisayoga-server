@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zihe.tams.module.card.dao.RechargeMapper">
+
+    <select id="getReportRechargeCount" resultType="com.zihe.tams.module.report.dto.response.GetRechargeReportResponse">
+        select tc.name   as customerName,
+               cr.`name` as cardName,
+               r.payment_amount,
+               r.pay_method,
+               r.actual_amount,
+               r.card_times,
+               r.validity_period,
+               r.create_time
+        FROM recharge r
+                 LEFT JOIN card c on r.card_no = c.card_no
+                 LEFT JOIN card_rule cr on c.card_rule_id = cr.id
+                 LEFT JOIN t_customer tc ON c.customer_id = tc.id
+        where tc.enable_state = 1
+          and r.create_time between #{startDate} and #{endDate} and r.is_deleted = 'N' and tc.is_deleted = 'N'
+        group by r.id
+        order by  r.create_time desc;
+    </select>
+
+    <select id="getReportRefundCount" resultType="com.zihe.tams.module.report.dto.response.GetRechargeReportResponse">
+        select tc.name   as customerName,
+               cr.`name` as cardName,
+--                r.payment_amount,
+               r.refund_method pay_method,
+               0 - r.actual_refund_amount   actual_amount ,
+--                r.card_times,
+--                r.validity_period,
+               r.create_time
+        FROM refund r
+                 LEFT JOIN card c on r.card_no = c.card_no
+                 LEFT JOIN card_rule cr on c.card_rule_id = cr.id
+                 LEFT JOIN t_customer tc ON c.customer_id = tc.id
+        where  r.create_time between #{startDate} and #{endDate} and tc.is_deleted = 'N'
+        group by r.id
+        order by  r.create_time desc;
+    </select>
+
+    <select id="getAllRecharge" resultType="com.zihe.tams.module.report.dto.response.GetRechargeReportResponse">
+        select tc.name   as customerName,
+               cr.`name` as cardName,
+               r.payment_amount,
+               r.pay_method,
+               r.actual_amount,
+               r.card_times,
+               r.validity_period,
+               r.create_time
+        FROM recharge r
+                 LEFT JOIN card c on r.card_no = c.card_no
+                 LEFT JOIN card_rule cr on c.card_rule_id = cr.id
+                 LEFT JOIN t_customer tc ON c.customer_id = tc.id
+        where  r.card_no = #{cardNo} and tc.is_deleted = 'N'
+    </select>
+</mapper>

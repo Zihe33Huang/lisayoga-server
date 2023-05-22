@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zihe.tams.module.card.dao.CardBillMapper">
+
+    <update id="deleteBillByScheduleId" parameterType="long">
+        update card_bill set is_deleted = 'Y' where source_id = #{scheduleId} and customer_id = #{customerId}
+    </update>
+
+    <select id = "selectRechargeByTeacherId" resultType="com.zihe.tams.module.card.model.data.TeacherRoyaltyDTO">
+        select r.payment_amount, ct.name customer_name, cr.name card_type, c.create_time `date`, t_teacher.royalty_rate
+        from card c
+        left join recharge r on c.card_no = r.card_no
+        left join t_customer ct on ct.id = c.customer_id
+        left join card_rule cr on cr.id = c.card_rule_id
+        left join t_teacher on t_teacher.id = c.teacher_id
+        where c.teacher_id = #{teacherId}  and c.`create_time`   between #{startDate} and #{endDate} and ct.is_deleted = 'N'
+    </select>
+
+    <select id = "selectRefundByTeacherId" resultType="com.zihe.tams.module.card.model.data.TeacherRoyaltyDTO">
+        select 0 - r.should_refund_amount payment_amount, ct.name customer_name, cr.name card_type, c.create_time `date`,t_teacher.royalty_rate
+        from refund r
+        left join card c on c.card_no = r.card_no
+        left join t_customer ct on ct.id = c.customer_id
+        left join card_rule cr on cr.id = c.card_rule_id
+        left join t_teacher on t_teacher.id = c.teacher_id
+        where c.teacher_id = #{teacherId}  and c.`create_time`  between #{startDate} and #{endDate} and ct.is_deleted = 'N'
+    </select>
+
+
+</mapper>

@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://host.docker.internal:3306/lisayoga?characterEncoding=utf-8&ti&useSSL=false&&serverTimezone=Asia/Shanghai
+      username: root
+      password: q980330
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 30000
+
+logging:
+  level:
+    com.zihe.tams: debug

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zihe.tams.module.teacher.dao.TeacherCourseFeeMapper">
+    <select id="queryTeacherConfig" resultType="com.zihe.tams.module.teacher.model.data.TeacherCourseFeeDO">
+        select * from t_teacher_course_fee cf left join t_course c on cf.course_id = c.id
+        where teacher_id = #{teacherId} and c.name like CONCAT('%',#{name},'%')
+        limit #{page}, #{size}
+    </select>
+
+    <select id = "queryByTeacherId" resultType="com.zihe.tams.module.teacher.model.dto.TeacherCourseFeeDTO">
+        select * from t_teacher_course_fee
+        where teacher_id = #{teacherId}
+    </select>
+
+    <select id="getTotal" resultType="int">
+        select count(*) from t_teacher_course_fee cf left join t_course c on cf.course_id = c.id
+        where teacher_id = #{teacherId}  and c.name like CONCAT('%',#{name},'%')
+    </select>
+</mapper>

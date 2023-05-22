@@ -1,0 +1,32 @@
+server:
+  port: 33827
+
+spring:
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: false
+  type-aliases-package: com.zihe.**.model
+
+logging:
+  config: classpath:log-logback.xml
+  custom:
+    path: ./logs
+oss:
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAI4FbvMw23rKuXyQwR7jsD
+  accessKeySecret: mUSzkEj3LdwT5dMZtYsg5quLN5DNiL
+  bucketName: lisayoga
+

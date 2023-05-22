@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://<your server ip>:3306/<database name>
+      username: root
+      password: lisayoga
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 30000
+
+logging:
+  level:
+    com.zihe.tams: debug
