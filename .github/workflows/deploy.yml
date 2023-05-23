@@ -40,9 +40,9 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:${{ github.sha }}
-          docker stop $MY_APPNAME || true
-          docker rm $MY_APPNAME || true
-          docker rmi ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current || true
-          docker tag ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current
-          docker run -d --name $MY_APPNAME -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:${{ github.sha }}
+          docker stop ${{ env.MY_APPNAME }} || true
+          docker rm ${{ env.MY_APPNAME }} || true
+          docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current || true
+          docker tag ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current
+          docker run -d --name ${{ env.MY_APPNAME }} -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current
