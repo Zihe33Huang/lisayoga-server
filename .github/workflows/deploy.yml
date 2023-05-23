@@ -1,5 +1,6 @@
 name: Deploy to AWS
-
+env:
+  MY_APPNAME: lisayoga_server
 on:
   push:
     branches: [ master ]
@@ -30,8 +31,6 @@ jobs:
   deploy: # the name of job
     needs: [build]
     runs-on: ubuntu-latest
-    env:
-      MY_APPNAME: lisayoga_server
     steps:
     - name: executing remote ssh command using password
       uses: appleboy/ssh-action@master
