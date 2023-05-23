@@ -13,4 +13,4 @@
 # Workflow
 
 * Checkout, use pre-defined actions
-* 
+* Setup JDK environment
