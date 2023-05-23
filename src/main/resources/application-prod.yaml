@@ -3,8 +3,8 @@ spring:
   datasource:
     druid:
       url: jdbc:mysql://lisayoga_database:3306/lisayoga?characterEncoding=utf-8&ti&useSSL=false&&serverTimezone=Asia/Shanghai
-      username: root
-      password: lisayoga
+      username: lisayoga
+      password: q980330
       initial-size: 1
       min-idle: 1
       max-active: 20
