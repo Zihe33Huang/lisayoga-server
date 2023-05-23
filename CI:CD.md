@@ -66,5 +66,71 @@ In Github Action, we should use ${{env.variable}} to placeholder variable.
 
 
 
+* Publish images to DockerHub
 
+Here is an issue should be concerned, the name of your image should be like  repo/image:tag,   for example, my repo on DockerHub is same as my username,  `zihehuang33` ,  so as following shown:
+
+```
+REPOSITORY                        TAG           IMAGE ID       CREATED         SIZE
+lisayoga_database                 latest        09ba9602d568   6 days ago      448MB
+zihehuang33/lisayoga_database     latest        09ba9602d568   6 days ago      448MB
+```
+
+The first one can not be pushed to the Hub, and report: `denied: requested access to the resource is denied`
+
+# Deploy several containers in single server 
+
+As I have only one AWS server, I need to deploy database, frontend and backend in single server, so I need these containers connecting with each other.
+
+## Virtual Network 
+
+### Bridge Network (Default)
+
+1. **Check that the bridge network is running** by `docker network ls` 
+
+2. `docker run` default add container to `bridge` network
+
+3. **Inspect** 
+
+   ```
+   $ docker inspect <container_id> | grep IPAddress
+   ```
+
+   or 
+
+   ```
+   $ docker network inspect bridge
+   ```
+
+
+
+Cons： IP address can change,  not convenient, do not support `hostname`
+
+
+
+## User-defined Bridge Network
+
+1. **Create network**
+
+   ```
+   docker network create xx
+   ```
+
+2. **Start a container and connect it to the bridge**
+
+   Use `--net networkname`
+
+   ```
+   docker run --rm --net tulip-net --name tulipnginx -d nginx 
+   ```
+
+   Or  for a existing container
+
+   ```
+   docker network connect tulip-net mongodb
+   ```
+
+   
+
+3. **Address another container, using its name as the hostname**
 
