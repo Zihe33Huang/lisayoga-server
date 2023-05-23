@@ -58,3 +58,7 @@ So basically, pull image from DockerHub, and change the tag as current, so every
 
 
 
+* **$APP_NAME seems not working** 
+
+  
+
