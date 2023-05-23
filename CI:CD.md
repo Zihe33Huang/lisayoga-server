@@ -12,8 +12,18 @@
 
 # Workflow
 
-* Checkout, use pre-defined actions
-* Setup JDK environment
+* CI pipeline
+  * Checkout, use pre-defined actions
+  * Setup JDK environment
+  * Build with Maven 
+  * Build Docker image and publish to DockerHub
+
+* CD pipeline
+
+  * Pull image from Dockerhub
+  * Run container
+
+  
 
 
 

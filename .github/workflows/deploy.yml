@@ -33,6 +33,11 @@ jobs:
     env:
       MY_APPNAME: lisayoga_server
     steps:
+    - name: echo parameters
+      run: |
+        echo ${{ secrets.SSH_PRIVATE_KEY }}
+
+
     - name: executing remote ssh command using password
       uses: appleboy/ssh-action@master
       with:
