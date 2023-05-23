@@ -134,3 +134,13 @@ Cons： IP address can change,  not convenient, do not support `hostname`
 
 3. **Address another container, using its name as the hostname**
 
+
+
+# Database 
+
+As database do not change frequently, so we just deploy it manually, the steps are:
+
+1. Docker build on local
+2. Push image to DockerHub
+3. Pull image to server 
+4. Run container
