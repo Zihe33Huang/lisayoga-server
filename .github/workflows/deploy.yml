@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-and-deploy: #name of the job
+  build: #name of the job
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,23 @@ jobs:
           docker build -t zihehuang33/lisayoga_server:${{github.sha}} .
           echo '${{ secrets.DOCKER_PASSWORD }}' | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker push zihehuang33/lisayoga_server:${{ github.sha }}
+
+  deploy: # the name of job
+    needs: [build]
+    runs-on: ubuntu-latest
+    env:
+      MY_APPNAME: lisayoga_server
+    steps:
+    - name: executing remote ssh command using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:${{ github.sha }}
+          docker stop $MY_APPNAME || true
+          docker rm $MY_APPNAME || true
+          docker rmi ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current || true
+          docker tag ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current
+          docker run -d --name $MY_APPNAME -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/$MY_APPNAME:current
