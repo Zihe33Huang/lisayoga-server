@@ -45,4 +45,4 @@ jobs:
           docker rm ${{ env.MY_APPNAME }} || true
           docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current || true
           docker tag ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current
-          docker run -d --name ${{ env.MY_APPNAME }} -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current
+          docker run --network lisayoga -d --name ${{ env.MY_APPNAME }} -p 12010:12010 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:current

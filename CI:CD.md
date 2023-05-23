@@ -58,7 +58,13 @@ So basically, pull image from DockerHub, and change the tag as current, so every
 
 
 
-* **$APP_NAME seems not working** 
+* **Variable**  
 
-  
+In official doc, an example uses $VARIABLE to represent variables,  it is actually used in `echo` command, because this is bash shell syntax.
+
+In Github Action, we should use ${{env.variable}} to placeholder variable.
+
+
+
+
 
