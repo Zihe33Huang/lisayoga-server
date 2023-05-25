@@ -44,4 +44,4 @@ jobs:
           docker stop ${{ env.MY_APPNAME }} || true
           docker rm ${{ env.MY_APPNAME }} || true
           docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest || true
-          docker run --network lisayoga -d --name ${{ env.MY_APPNAME }} -p 80:80 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
+          docker run --network lisayoga -d --name ${{ env.MY_APPNAME }} -p 12010:12010 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
