@@ -2,7 +2,7 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://lisayoga_database:3306/lisayoga?characterEncoding=utf-8&ti&useSSL=false&&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://coral-app-jusls.ondigitalocean.app:3306/lisayoga?characterEncoding=utf-8&ti&useSSL=false&&serverTimezone=Asia/Shanghai
       username: lisayoga
       password: q980330
       initial-size: 1
