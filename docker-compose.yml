@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   server:
-    image: zihehuang33/lisayoga_server
+    image: zihehuang33/lisayoga_server:latest
     ports:
       - "12010:443"
     depends_on: [db]
@@ -9,7 +9,7 @@ services:
       - app-network
 
   db:
-    image: zihehuang33/lisayoga_database
+    image: zihehuang33/lisayoga_database:latest
     environment:
       MYSQL_ROOT_PASSWORD: q980330
       MYSQL_DATABASE: lisayoga
@@ -20,7 +20,7 @@ services:
     networks:
       - app-network
 
-        
+
 networks:
   app-network:
     driver: bridge
