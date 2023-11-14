@@ -8,11 +8,14 @@ SpringBoot
 Docker
 Docker-Compose
 MySQL
+Nginx
 
 
 # Nginx 
 
-Used for Port Forwarding
+Used for Port Forwarding.  
+PS:  server_name is necessary, otherwise nginx may not work 
+
 ```
 server {
     listen 80;
