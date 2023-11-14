@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  server:
+  myapp:
     image: zihehuang33/lisayoga_server:latest
     ports:
       - "12010:443"
@@ -10,13 +10,8 @@ services:
 
   db:
     image: zihehuang33/lisayoga_database:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: q980330
-      MYSQL_DATABASE: lisayoga
-      MYSQL_USER: lisayoga
-      MYSQL_PASSWORD: q980330
     ports:
-      - "33006:3306"
+      - "33004:3306"
     networks:
       - app-network
 
