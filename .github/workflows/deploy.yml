@@ -4,7 +4,7 @@ env:
   MY_APPNAME: lisayoga_server
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build: #name of the job
@@ -17,8 +17,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '8'
-          distribution: 'adopt'
+          java-version: "8"
+          distribution: "adopt"
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
