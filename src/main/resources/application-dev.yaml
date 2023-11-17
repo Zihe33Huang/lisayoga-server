@@ -2,9 +2,9 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://<your server ip>:3306/<database name>
+      url: jdbc:mysql://localhost:3306/lisayoga
       username: root
-      password: lisayoga
+      password: q980330
       initial-size: 1
       min-idle: 1
       max-active: 20

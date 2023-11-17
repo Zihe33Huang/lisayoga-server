@@ -61,9 +61,6 @@ public class CardRuleDO {
 	private String discountRate;
 
 
-    /** 是否是本馆专用卡  0否 1是 */
-	@TableField(value = IS_SPECIAL_SELF_FIELD)
-	private Integer isSpecialSelf;
 
 	@TableField(value = TYPE_FIELD)
 	private Integer type;
@@ -72,5 +69,4 @@ public class CardRuleDO {
 
 
 
-	//endregion
 }

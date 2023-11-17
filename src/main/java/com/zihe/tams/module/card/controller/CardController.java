@@ -4,9 +4,7 @@ import com.zihe.tams.common.base.BaseController;
 import com.zihe.tams.common.exception.BusinessException;
 import com.zihe.tams.common.model.ApiResult;
 import com.zihe.tams.module.card.component.CardComponent;
-import com.zihe.tams.module.card.model.dto.CardDateChangeDTO;
-import com.zihe.tams.module.card.model.dto.RechargeCardConfigDTO;
-import com.zihe.tams.module.card.model.dto.RefundComputedDTO;
+import com.zihe.tams.module.card.model.dto.*;
 import com.zihe.tams.module.card.model.request.CreateCardRequest;
 import com.zihe.tams.module.card.model.request.GetPersonInfoRequest;
 import com.zihe.tams.module.card.model.request.RechargeRequest;
@@ -119,5 +117,9 @@ public class CardController extends BaseController {
         return successOrFail(cardComponent.changeDate(changeDTO));
     }
 
+    @GetMapping("getCardTypes")
+    public ResponseEntity<ApiResult<List<CardTypeVO>>> getCardType() {
+        return success(cardComponent.getAllCardType());
+    }
 
 }

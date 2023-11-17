@@ -37,6 +37,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Array;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -551,4 +552,19 @@ public class CardComponent {
         // 3、 时长卡，一星期不能约课
         return true;
     }
+
+    public List<CardTypeVO> getAllCardType() {
+        ArrayList<CardTypeVO> list = new ArrayList<>();
+        for (int type = 1;type <= 3;type++) {
+            CardTypeVO cardTypeVO = new CardTypeVO();
+            cardTypeVO.setType(type);
+            List<CardRuleDTO> cardRuleByType = this.cardRuleService.getCardRuleByType(type);
+            cardTypeVO.setList(cardRuleByType);
+            list.add(cardTypeVO);
+        }
+        return list;
+    }
+
+
+
 }

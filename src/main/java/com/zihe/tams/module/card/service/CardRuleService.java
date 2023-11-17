@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zihe.tams.module.card.model.data.CardRuleDO;
 import com.zihe.tams.module.card.model.dto.CardRuleDTO;
 
+import java.util.List;
+
 /**
  * 卡规则 Service
  *
@@ -13,4 +15,7 @@ import com.zihe.tams.module.card.model.dto.CardRuleDTO;
  */
 public interface CardRuleService extends IService<CardRuleDO> {
     CardRuleDTO getByRuleId(Long id);
+
+    List<CardRuleDTO> getCardRuleByType(Integer n);
+
 }

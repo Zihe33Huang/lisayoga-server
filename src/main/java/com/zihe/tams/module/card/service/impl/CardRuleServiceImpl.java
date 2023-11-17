@@ -10,6 +10,9 @@ import com.zihe.tams.module.card.service.CardRuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * 卡规则 ServiceImpl
  *
@@ -24,6 +27,14 @@ public class CardRuleServiceImpl extends ServiceImpl<CardRuleMapper, CardRuleDO>
     public CardRuleDTO getByRuleId(Long id) {
         return ConvertUtils.of(this.getById(id),CardRuleDTO.class);
     }
+
+    @Override
+    public List<CardRuleDTO> getCardRuleByType(Integer n) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type", n);
+        return ConvertUtils.ofList(this.listByMap(map), CardRuleDTO.class);
+    }
+
 
 }
    

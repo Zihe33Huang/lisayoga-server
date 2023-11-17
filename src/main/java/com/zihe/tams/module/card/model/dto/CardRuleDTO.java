@@ -41,11 +41,8 @@ public class CardRuleDTO {
 	@ApiModelProperty(value = "1：时长卡 2：次卡 3：充值卡", position = 9)
 	private Integer type;
 
-	@ApiModelProperty(value = "优惠额度", position = 10)
-	private BigDecimal discountRate;
-
-	@ApiModelProperty(value = "是否是本馆专用卡  0否 1是", position = 12)
-	private Integer isSpecialSelf;
+//	@ApiModelProperty(value = "优惠额度", position = 10)
+//	private BigDecimal discountRate;
 
 
 }
