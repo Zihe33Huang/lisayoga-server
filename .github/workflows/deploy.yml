@@ -28,22 +28,22 @@ jobs:
           docker build -t zihehuang33/lisayoga_server:latest .
           echo '${{ secrets.DOCKER_PASSWORD }}' | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker push zihehuang33/lisayoga_server:latest
-    deploy: # the name of job
-      needs: [build]
-      runs-on: ubuntu-latest
-      steps:
-        - name: executing remote ssh command using password
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.REMOTE_HOST }}
-            username: ${{ secrets.REMOTE_USER }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: |
-              cd ~
-              docker-compose down
-              # docker stop ${{ env.MY_APPNAME }} || true
-              docker rm ${{ env.MY_APPNAME }} || true
-              docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest || true
-              docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
-              # docker run --network lisayoga -d --name ${{ env.MY_APPNAME }} -p 12010:12010 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
-              docker-compose up -d
+  deploy: # the name of job
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh command using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~
+            docker-compose down
+            # docker stop ${{ env.MY_APPNAME }} || true
+            docker rm ${{ env.MY_APPNAME }} || true
+            docker rmi ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
+            # docker run --network lisayoga -d --name ${{ env.MY_APPNAME }} -p 12010:12010 ${{ secrets.DOCKER_USERNAME }}/${{ env.MY_APPNAME }}:latest
+            docker-compose up -d
